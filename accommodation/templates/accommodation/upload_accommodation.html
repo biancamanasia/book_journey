@@ -1,0 +1,260 @@
+{% extends 'base.html' %}
+
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% load static %}
+
+{% block content %}
+
+<style type="text/css">
+    body {
+        background-color: #fce4ec; 
+        font-family: 'Arial', sans-serif;
+    }
+
+    .container {
+        max-width: 600px;
+        margin-top: 50px;
+        padding: 20px;
+        background-color: #ffffff; 
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        color: #ad1457; 
+        margin-bottom: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    label {
+        color: #880e4f; 
+        font-weight: bold;
+    }
+
+    .form-control {
+        margin-bottom: 15px;
+        border: 1px solid #f8bbd0; 
+    }
+
+    .form-control-file {
+        margin-bottom: 15px;
+    }
+
+    .btn-primary {
+        background-color: #ad1457; 
+        border-color: #ad1457;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+    }
+
+    .btn-primary:hover {
+        background-color: #880e4f; 
+        border-color: #880e4f;
+    }
+
+    .tempus-dominus-widget {
+        z-index: 1000;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    #room-details-fields .form-group,
+    #apartment-details-fields .form-group {
+        margin-bottom: 10px;
+    }
+
+    #room-details-container,
+    #apartment-details-container {
+        display: none;
+        padding: 10px;
+        background-color: #f8bbd0; 
+        border-radius: 5px;
+    }
+
+    .center-button {
+        text-align: center;
+    }
+
+
+    .form-control-description {
+        height: 150px; 
+        resize: vertical; 
+        border: 1px solid #f8bbd0; 
+        border-radius: 5px;
+        padding: 10px;
+        font-family: 'Arial', sans-serif;
+        font-size: 14px;
+    }
+
+    .accommodation h3 {
+        color: #ad1457; 
+        font-size: 18px;
+        margin-top: 15px;
+    }
+
+    .accommodation ul {
+        list-style-type: none; 
+        padding-left: 0;
+        color: #880e4f; 
+    }
+
+    .accommodation ul li {
+        position: relative;
+        padding-left: 25px; 
+        margin-bottom: 5px;
+    }
+
+    .accommodation ul li::before {
+        content: "\2022"; 
+        color: #ff69b4; 
+        position: absolute;
+        left: 0;
+        font-size: 20px; 
+        line-height: 1; 
+    }
+</style>
+
+
+
+
+<div class="container">
+    <h2 class="text-center mb-4">Upload Accommodation</h2>
+    <form action="{% url 'upload_accommodation' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+
+        <div id="room-details-container" class="formset-container">
+            <h3>Room Details</h3>
+            {{ room_formset.management_form }}
+            <div id="room-details-fields"></div>
+        </div>
+
+        <div id="apartment-details-container" class="formset-container">
+            <h3>Apartment Details</h3>
+            {{ apartment_formset.management_form }}
+            <div id="apartment-details-fields"></div>
+        </div>
+
+        <div id="accommodation-image-details-container" class="formset-container">
+            <h4>Accommodation Images</h4>
+            {{ accommodation_image_formset.management_form }}
+            {{ accommodation_image_formset.as_p }}
+        </div>
+
+
+        <h3>Room Details</h3>
+        {{ room_formset.management_form }}
+        {% for room_form in room_formset %}
+            {{ room_form.as_p }}
+        {% endfor %}
+        
+        <div id="room-image-details-container" class="formset-container">
+            <h3>Room Image</h3>
+            {{ room_image_formset.management_form }}
+            {{ room_image_formset.as_p }}
+        </div>
+
+        <h3>Apartment Details</h3>
+        {{ apartment_formset.management_form }}
+        {% for apartment_form in apartment_formset %}
+            {{ apartment_form.as_p }}
+        {% endfor %}
+
+
+        <div id="apartment-image-details-container" class="formset-container">
+            <h3>Apartment Image</h3>
+            {{ apartment_image_formset.management_form }}
+            {{ apartment_image_formset.as_p }}
+        </div>
+
+        <div class="center-button">
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </div>
+    </form>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<script src="{% static 'js/country_city_dropdown.js' %}"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+
+        $('.flatpickr').flatpickr({
+            dateFormat: 'Y-m-d',
+            minDate: 'today'
+        });
+
+        var cityOptions = {
+            'Romania': ['București', 'Cluj-Napoca', 'Timișoara', 'Iași', 'Constanța', 'Craiova', 'Brașov', 'Galați', 'Ploiești', 'Oradea', 'Brăila', 'Arad', 'Pitești', 'Sibiu', 'Bacău', 'Târgu Mureș', 'Baia Mare', 'Buzău', 'Botoșani', 'Satu Mare', 'Râmnicu Vâlcea', 'Târgu Jiu'],
+            'Bulgaria': ["Sofia", "Plovdiv", "Varna", "Burgas"],
+            'Cyprus': ["Nicosia", "Limassol", "Larnaca", "Paphos"],
+            'Egypt': ["Cairo", "Alexandria", "Giza", "Luxor"],
+            'Finland': ["Helsinki", "Espoo", "Tampere", "Oulu"],
+            'Greece': ["Athens", "Thessaloniki", "Patras", "Heraklion"],
+            'Italy': ["Rome", "Milan", "Naples", "Turin"],
+            'Kenya': ["Nairobi", "Mombasa", "Kisumu", "Nakuru"],
+            'Maldives': ["Malé", "Hulhumalé", "Fuvahmulah", "Addu City"],
+            'Mauritius': ["Port Louis", "Beau Bassin-Rose Hill", "Vacoas-Phoenix", "Curepipe"],
+            'Morocco': ["Casablanca", "Marrakesh", "Rabat", "Fes"],
+            'Portugal': ["Lisbon", "Porto", "Braga", "Faro"],
+            'Seychelles': ["Victoria", "Anse Boileau", "Beau Vallon", "Takamaka"],
+            'Spain': ["Madrid", "Barcelona", "Valencia", "Seville"],
+            'Switzerland': ["Zurich", "Geneva", "Basel", "Lausanne"],
+            'Tunisia': ["Tunis", "Sfax", "Sousse", "Kairouan"],
+            'Turkey': ["Istanbul", "Ankara", "Izmir", "Bursa"],
+            'United Arab Emirates': ["Dubai", "Abu Dhabi", "Sharjah", "Al Ain"]
+        };
+
+        function populateCityOptions(country) {
+            var citySelect = $('#id_city');
+            citySelect.empty();
+            var datalist = $('<datalist id="city-list"></datalist>');
+            citySelect.append('<option value="">Select city</option>');
+            if (country && cityOptions[country]) {
+                cityOptions[country].forEach(function(city) {
+                    datalist.append('<option value="' + city + '">');
+                });
+            }
+            $('body').append(datalist);
+        }
+
+        $('#id_country').change(function() {
+            var selectedCountry = $(this).val();
+            populateCityOptions(selectedCountry);
+        });
+
+        
+        if ($('#id_country').val()) {
+            populateCityOptions($('#id_country').val());
+        }
+
+
+        
+    });
+</script>
+
+
+{% endblock content %}

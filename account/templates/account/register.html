@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style type="text/css">
+  body {
+      background-color: #fce4ec; 
+      font-family: 'Arial', sans-serif;
+  }
+
+  .form-signin {
+      max-width: 400px;
+      padding: 2rem;
+      margin: auto;
+      background-color: #ffffff; 
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-signin .form-floating:focus-within {
+      z-index: 2;
+  }
+
+  .form-signin input[type="email"],
+  .form-signin input[type="password"],
+  .form-signin input[type="text"] {
+      margin-bottom: -1px;
+      border-radius: 5px;
+      border: 1px solid #f8bbd0; 
+  }
+
+  .h1, .h3 {
+      text-align: center;
+      color: #ad1457; 
+      font-weight: bold;
+  }
+
+  .form-floating label {
+      color: #880e4f; 
+      font-weight: bold;
+  }
+
+  .form-control {
+      margin-bottom: 15px;
+  }
+
+  .btn-primary {
+      background-color: #ad1457; 
+      border-color: #ad1457;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+  }
+
+  .btn-primary:hover {
+      background-color: #880e4f; 
+      border-color: #880e4f;
+  }
+
+  .form-check-label {
+      color: #880e4f; 
+  }
+
+  .error {
+      color: red;
+      font-weight: bold;
+  }
+</style>
+
+
+
+
+<form class="form-signin w-100 m-auto" method = "post"> {% csrf_token %}
+    <form>
+      <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+      <h1 class="h3 mb-3 fw-normal">Register an account</h1>
+  
+      <div class="form-floating">
+        <input type="email" name = "email" class="form-control" id="floatingInput" placeholder="name@example.com">
+        <label for="floatingInput">Email address</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" name = "username" class="form-control" id="inputUsername" placeholder="Username">
+        <label for="inputUsername">Username</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" name = "password1" class="form-control" id="inputPassword" placeholder="Password">
+        <label for="inputPassword">Password</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" name = "password2" class="form-control" id="input Password2" placeholder="Confirm password">
+        <label for="inputPassword2">Confirm password</label>
+      </div>
+
+
+        {% for field in registration_form %}
+            <p>
+                {% for error in field.errors %}
+                    <p style = "color: red;">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+            </p>
+        
+
+        {% endfor %}
+
+        {% if registration_form.non_field_errors %}
+            <div style = "color:red;">
+                <p>
+                    {{registration_form.non_field_errors}}
+                </p>
+            </div>
+        {% endif %}
+
+
+
+      <button class="btn btn-primary w-100 py-2" type="submit">Register</button>
+    </form>
+</form>
+
+
+{% endblock content %}

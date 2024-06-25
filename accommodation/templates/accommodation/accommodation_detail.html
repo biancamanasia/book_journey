@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<style type="text/css">
+    .container {
+        max-width: 500px;
+        margin: 50px auto;
+        text-align: center;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .container h1 {
+        color: #ad1457; 
+    }
+
+    .container p {
+        color: #880e4f; 
+    }
+
+    .container img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        margin: 20px 0;
+    }
+
+    .star-rating {
+        color: #ffbb33; 
+        font-size: 20px; 
+    }
+
+    .btn-primary {
+        background-color: #ad1457; 
+        border-color: #ad1457;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
+
+    .btn-primary:hover {
+        background-color: #880e4f; 
+        border-color: #880e4f;
+    }
+
+    .swiper-container {
+        width: 100%;
+        height: 400px;
+    }
+
+    .swiper-slide img {
+        width: 100%;
+        height: auto;
+    }
+    .carousel-inner img {
+        width: 100%;
+        height: auto;
+    }
+</style>
+
+<div class="container"> 
+    <h1>{{ accommodation.name }}</h1>
+    <div class="star-rating">
+        {% for i in accommodation.star_rating|get_range %}
+        &#9733; 
+        {% endfor %}
+      </div>
+    <p>{{ accommodation.description }}</p>
+
+    <div id="accommodationCarousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            {% for image in accommodation.images.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{{ image.image.url }}" alt="Accommodation Image">
+            </div>
+            {% endfor %}
+        </div>
+        <a class="carousel-control-prev" href="#accommodationCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </a>
+        <a class="carousel-control-next" href="#accommodationCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <p>Availability: {{ accommodation.availability_start }} - {{ accommodation.availability_end }}</p>
+    <p>Country: {{ accommodation.country }}</p>
+    <p>City: {{ accommodation.city }}</p>
+    <p>Number of Rooms: {{ accommodation.number_of_rooms }}</p>
+    <p>Number of Apartments: {{ accommodation.number_of_apartments }}</p>
+
+    <h3>Room Details</h3>
+    {% for room in rooms %}
+    <div class="room-detail">
+        <p>Type: {{ room.room_type }}</p>
+        <p>Price/night: {{ room.price }} {{ room.currency }}</p>
+        <p>Availability: {{ room.availability_start }} - {{ room.availability_end }}</p>
+        <div id="roomCarousel{{ room.id }}" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                {% for image in room.room_images.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <img src="{{ image.image.url }}" alt="Room Image">
+                </div>
+                {% endfor %}
+            </div>
+            <a class="carousel-control-prev" href="#roomCarousel{{ room.id }}" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+
+            </a>
+            <a class="carousel-control-next" href="#roomCarousel{{ room.id }}" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+
+            </a>
+        </div>
+    </div>
+    {% empty %}
+    <p>No rooms available.</p>
+    {% endfor %}
+
+    <h3>Apartment Details</h3>
+    {% for apartment in apartments %}
+    <div class="apartment-detail">
+        <p>Number of Rooms: {{ apartment.number_of_rooms }}</p>
+        <p>Price/night: {{ apartment.price }} {{ apartment.currency }}</p>
+        <p>Availability: {{ apartment.availability_start }} - {{ apartment.availability_end }}</p>
+        <div id="apartmentCarousel{{ apartment.id }}" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                {% for image in apartment.apartment_images.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <img src="{{ image.image.url }}" alt="Apartment Image">
+                </div>
+                {% endfor %}
+            </div>
+            <a class="carousel-control-prev" href="#apartmentCarousel{{ apartment.id }}" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+
+            </a>
+            <a class="carousel-control-next" href="#apartmentCarousel{{ apartment.id }}" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+
+            </a>
+        </div>
+    </div>
+    {% empty %}
+    <p>No apartments available.</p>
+    {% endfor %}
+
+
+    <h2>Reviews</h2>
+    {% for review in reviews %}
+    <div class="review">
+        <p><strong>{{ review.user.username }}</strong> ({{ review.rating }} stars)</p>
+        <p>{{ review.comment }}</p>
+        <p><small>{{ review.created_at }}</small></p>
+    </div>
+    {% empty %}
+    <p>No reviews yet.</p>
+    {% endfor %}
+
+    <h2>Add a Review</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ review_form.as_p }}
+        <div class="center-button">
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+        </div>
+    </form>
+
+
+    <a href="{% url 'reserve_accommodation' accommodation.id %}" class="btn btn-primary">Reserve Now</a>
+
+</div>
+
+
+
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        loop: true,
+    });
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    
+{% endblock content %}
+

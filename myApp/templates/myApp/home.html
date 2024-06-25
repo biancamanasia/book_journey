@@ -1,0 +1,310 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+<style type="text/css">
+    .body {
+        background-color: #81002b; 
+        font-family: 'Arial', sans-serif;
+    }
+
+    .container {
+        max-width: 960px;
+    }
+
+    .header-custom, .search-container {
+        background-color: #81002b; 
+        border: none;
+    }
+
+    
+    .body::-webkit-scrollbar {
+        width: 12px; 
+    }
+
+    .body::-webkit-scrollbar-track {
+        background: #ffffff; 
+    }
+
+    .body::-webkit-scrollbar-thumb {
+        background-color: #ad1457; 
+        border-radius: 20px; 
+        border: 3px solid #ffffff; 
+    }
+
+   
+    .body {
+        scrollbar-width: thin; 
+        scrollbar-color: #ad1457 #ffffff; 
+    }
+    .header-custom {
+        text-align: center;
+        padding: 20px 0;
+        margin-bottom: 0; 
+    }
+
+    .text-body-emphasis {
+        color: #ad1457;
+    }
+
+    .text-body-secondary {
+        color: #880e4f; 
+    }
+
+    .search-container {
+        padding: 10px 20px;
+        margin-bottom: 20px;
+        
+        border: 2px solid #6b002f; 
+    }
+
+    .search-container .form-control {
+        border: 1px solid #ad1457; 
+        margin-right: 10px; 
+    }
+
+    .search-container .btn-primary {
+        background-color: #6b0035; 
+        border-color: #6b002f;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+    }
+
+    .search-container .btn-primary:hover {
+        background-color: #ff1493; 
+        border-color: #ff1493;
+    }
+
+    .accommodation {
+        background-color: #fff; 
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .accommodation h2 {
+        color: #ad1457; 
+    }
+
+    .accommodation p {
+        color: #880e4f; 
+    }
+
+    .accommodation img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+
+    .accommodation a {
+        color: #ff69b4; 
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .accommodation a:hover {
+        color: #ff1493; 
+    }
+
+    .footer {
+        min-height: 100px;
+        background-color: #f8bbd0; 
+        color: #ad1457; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 0;
+    }
+
+    .star-rating {
+        color: #ffbb33; 
+        font-size: 20px; 
+    }
+
+    .accommodation h3 {
+        color: #ad1457; 
+        font-size: 18px;
+        margin-top: 15px;
+    }
+
+    .accommodation ul {
+        list-style-type: none; 
+        padding-left: 0;
+        color: #880e4f; 
+    }
+
+    .accommodation ul li {
+        position: relative;
+        padding-left: 25px; 
+        margin-bottom: 5px;
+    }
+
+    .accommodation ul li::before {
+        content: "\2022"; 
+        color: #ff69b4; 
+        position: absolute;
+        left: 0;
+        font-size: 20px; 
+        line-height: 1; 
+    }
+
+    
+
+    .btn-primary {
+        background-color: #ff69b4; 
+        border-color: #ff69b4;
+    }
+
+    .btn-primary:hover {
+        background-color: #ff1493; 
+        border-color: #ff1493;
+    }
+
+    .btn-primary:focus, .btn-primary:active {
+        background-color: #ff1493; 
+        border-color: #ff1493;
+        box-shadow: none;
+    }
+
+    .header-custom h1 {
+        color: #ffffff; 
+        font-weight: bold;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0;
+    }
+
+    .pagination .step-links {
+        display: flex;
+    }
+
+    .pagination .step-links a, .pagination .step-links span {
+        color: #ad1457; 
+        padding: 5px 10px;
+        margin: 0 5px;
+        border: 1px solid #ad1457; 
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    .pagination .step-links .current {
+        background-color: #ad1457; 
+        color: white;
+    }
+    .accommodation-title {
+        color: #ad1457; 
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+</style>
+
+
+<div class="header-custom">
+  <h1>Adventure is just a click away</h1>
+</div>
+
+<div class="search-container">
+  <form class="search-bar" method="get" action="{% url 'home' %}">
+      <div class="d-flex">
+          <input type="text" name="location" placeholder="Enter location" class="form-control" />
+          <input type="date" name="start_date" placeholder="Start Date" class="form-control datepicker" />
+          <input type="date" name="end_date" placeholder="End Date" class="form-control datepicker" />
+          <input type="number" name="num_rooms" placeholder="Enter number of rooms" class="form-control" value="{{ num_rooms }}" />
+          <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+  </form>
+</div>
+
+
+<div class="container"> 
+    <h1 class="accommodation-title">Accommodations</h1>
+  {% for accommodation in accommodations %}
+      <div class="accommodation">
+          <h2>{{ accommodation.name }}</h2>
+          <div class="star-rating">
+            {% for i in accommodation.star_rating|get_range %}
+            &#9733; 
+            {% endfor %}
+          </div>
+
+          <p>{{ accommodation.description }}</p>
+          {% if accommodation.images.all %}
+                <div id="carouselExampleIndicators{{ accommodation.id }}" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        {% for image in accommodation.images.all %}
+                            <li data-target="#carouselExampleIndicators{{ accommodation.id }}" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
+                        {% endfor %}
+                    </ol>
+                    <div class="carousel-inner">
+                        {% for image in accommodation.images.all %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="{{ image.image.url }}" class="d-block w-100" alt="Accommodation Image">
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators{{ accommodation.id }}" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators{{ accommodation.id }}" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            {% endif %}
+          <p>Country: {{ accommodation.country }}</p>
+          <p>City: {{ accommodation.city }}</p>
+          <h3>Facilities:</h3>
+          <ul>
+              {% if accommodation.parking %}<li>Parking</li>{% endif %}
+              {% if accommodation.breakfast %}<li>Breakfast</li>{% endif %}
+              {% if accommodation.internet %}<li>Internet</li>{% endif %}
+              {% if accommodation.accessibility %}<li>Accessibility</li>{% endif %}
+              {% if accommodation.bar %}<li>Bar</li>{% endif %}
+              {% if accommodation.restaurant %}<li>Restaurant</li>{% endif %}
+              {% if accommodation.fitness_center %}<li>Fitness Center</li>{% endif %}
+              {% if accommodation.pets %}<li>Pets Allowed</li>{% endif %}
+              {% if accommodation.outdoor_activities %}<li>Outdoor Activities</li>{% endif %}
+              {% if accommodation.reception %}<li>24/7 Reception</li>{% endif %}
+          </ul>
+
+          <a href="{% url 'accommodation_detail_id' accommodation.id %}">Accommodation Details</a>
+      </div>
+  {% endfor %}
+
+  <div class="pagination">
+        <span class="step-links">
+            {% if accommodations.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ accommodations.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ accommodations.number }} of {{ accommodations.paginator.num_pages }}.
+            </span>
+
+            {% if accommodations.has_next %}
+                <a href="?page={{ accommodations.next_page_number }}">next</a>
+                <a href="?page={{ accommodations.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+{% endblock content %}

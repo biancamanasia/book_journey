@@ -1,0 +1,116 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+<style type="text/css">
+  body {
+      background-image: linear-gradient(180deg, var(--bs-secondary-bg), var(--bs-body-bg) 100px, var(--bs-body-bg));
+  }
+
+  .container {
+      max-width: 960px;
+  }
+
+
+  .nav-link {
+      color: #ffffff; 
+  }
+
+  
+  .nav-link:hover {
+      color: #3b0421; 
+      border: 2px solid transparent; 
+      border-radius: 0.25rem; 
+  }
+
+
+  .nav-link:focus {
+      color: #ff1493; 
+  }
+
+  
+  .navbar-custom {
+      background-color: #81002b; 
+      padding: 0px;
+  }
+  .hello-user {
+      color: #ffffff;
+      font-weight: bold;
+      padding: 10px;
+      background-color: #81002b;
+      border-radius: 0.25rem;
+      display: inline-block;
+  }
+
+</style>
+
+<div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+    <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
+            id="bd-theme"
+            type="button"
+            aria-expanded="false"
+            data-bs-toggle="dropdown"
+            aria-label="Toggle theme (auto)">
+      <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#circle-half"></use></svg>
+      <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
+      <li>
+        <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+          <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#sun-fill"></use></svg>
+          Light
+          <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+        </button>
+      </li>
+      <li>
+        <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+          <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#moon-stars-fill"></use></svg>
+          Dark
+          <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+        </button>
+      </li>
+      <li>
+        <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true">
+          <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#circle-half"></use></svg>
+          Auto
+          <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+        </button>
+      </li>
+    </ul>
+  </div>
+
+<div class="navbar-custom">
+  <div class="d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="mb-auto">
+      <div>
+          <h2 class="float-md-start mb-0">
+              <a class="nav-link fw-bold py-1 px-0 me-3 active" aria-current="page" href="{% url 'home' %}">BookJourney.com</a> 
+
+          </h2>
+
+          <nav class="nav nav-masthead justify-content-end float-md-end">
+              {% if request.user.is_authenticated %}
+                  <a class="nav-link fw-bold py-1 px-0 me-3" href="{% url 'account' %}">Account</a> 
+                  <a class="nav-link fw-bold py-1 px-0 me-3" href="{% url 'logout' %}">Logout </a>
+                  <a class="nav-link fw-bold py-1 px-0 me-3" href="{% url 'upload_accommodation' %}">Upload your accommodation</a> 
+
+              {% else %} 
+                  <a class="nav-link fw-bold py-1 px-0 me-3" href="{% url 'login' %}">Login</a> 
+                  <a class="nav-link fw-bold py-1 px-0 me-3" href="{% url 'register' %}">Register </a>
+                  <a class="nav-link fw-bold py-1 px-0 me-3" href="{% url 'upload_accommodation' %}">Upload your accommodation</a> 
+              {% endif %}
+          </nav>
+
+          <br>
+          <br>
+
+          <h3 class="float-md-end mb-0">
+              {% if request.user.is_authenticated %}
+              <p class="hello-user">
+                Hello, {{request.user.username}} 
+            </p>
+              {% endif %}
+          </h3>
+          
+      </div>
+      </header>
+  </div>
+</div>

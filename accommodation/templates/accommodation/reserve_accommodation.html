@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style type="text/css">
+    body {
+        background-color: #fce4ec; 
+        font-family: 'Arial', sans-serif;
+    }
+
+    .container {
+        max-width: 600px;
+        margin-top: 50px;
+        padding: 20px;
+        background-color: #ffffff; 
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    h2 {
+        color: #ad1457; 
+        margin-bottom: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    label {
+        color: #880e4f; 
+        font-weight: bold;
+    }
+
+    .form-control {
+        margin-bottom: 15px;
+        border: 1px solid #f8bbd0; 
+    }
+
+    .form-control-file {
+        margin-bottom: 15px;
+    }
+
+    .btn-primary {
+        background-color: #ad1457; 
+        border-color: #ad1457;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+    }
+
+    .btn-primary:hover {
+        background-color: #880e4f; 
+        border-color: #880e4f;
+    }
+
+    .tempus-dominus-widget {
+        z-index: 1000;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+</style>
+
+
+<div class="container">
+    <h2 class="text-center mb-4">Reserve {{ accommodation.name }}</h2>
+    <form action="{% url 'reserve_accommodation' accommodation.id %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.non_field_errors }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.first_name.id_for_label }}">First name:</label>
+            {{ form.first_name }}
+            {{ form.first_name.errors }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.last_name.id_for_label }}">Last name:</label>
+            {{ form.last_name }}
+            {{ form.last_name.errors }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.birth_date.id_for_label }}">Birth date:</label>
+            {{ form.birth_date }}
+            {{ form.birth_date.errors }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">Email:</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.phone_number.id_for_label }}">Phone number:</label>
+            {{ form.phone_number }}
+            {{ form.phone_number.errors }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.check_in.id_for_label }}">Check in:</label>
+            {{ form.check_in }}
+            {{ form.check_in.errors }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.check_out.id_for_label }}">Check out:</label>
+            {{ form.check_out }}
+            {{ form.check_out.errors }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.number_of_rooms.id_for_label }}">Number of rooms:</label>
+            {{ form.number_of_rooms }}
+            {{ form.number_of_rooms.errors }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.number_of_apartments.id_for_label }}">Number of apartments:</label>
+            {{ form.number_of_apartments }}
+            {{ form.number_of_apartments.errors }}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}

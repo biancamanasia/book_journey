@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style type="text/css">
+    body {
+        background-color: #fce4ec; 
+        font-family: 'Arial', sans-serif;
+    }
+
+    .container {
+        max-width: 600px;
+        margin-top: 50px;
+        padding: 20px;
+        background-color: #ffffff; 
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center; 
+    }
+
+    h1 {
+        color: #ad1457; 
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    p {
+        color: #880e4f; 
+        font-size: 18px;
+    }
+
+    .btn-primary {
+        background-color: #ad1457; 
+        border-color: #ad1457;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
+
+    .btn-primary:hover {
+        background-color: #880e4f; 
+        border-color: #880e4f;
+    }
+</style>
+
+<div class="container">
+    <h1>Reservation Successful</h1>
+    <p>Your reservation has been successfully submitted.</p>
+    <a href="{% url 'home' %}" class="btn btn-primary">Go to Home</a>
+</div>
+
+{% endblock %}

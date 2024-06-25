@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<title>Upload Successful</title>
+<style type="text/css">
+    .container {
+        max-width: 500px;
+        margin: 50px auto;
+        text-align: center;
+        background-color: #fff; 
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .container h1 {
+        color: #ad1457; 
+    }
+
+    .container p {
+        color: #880e4f; 
+    }
+
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        color: #fff;
+        background-color: #880e4f; 
+        border: none;
+        border-radius: 5px;
+        box-shadow: 0 4px #880e4f;
+    }
+
+    .button:hover {
+        background-color: #ff1493; 
+    }
+
+    .button:active {
+        background-color: #ff1493; 
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+    }
+</style>
+
+
+<div class="container">
+    <h1>Upload Successful</h1>
+    <p>Your accommodation has been uploaded successfully.</p>
+    <a href="{% url 'upload_accommodation' %}" class="button">Upload another accommodation</a>
+</div>
+
+
+
+
+{% endblock content %}
